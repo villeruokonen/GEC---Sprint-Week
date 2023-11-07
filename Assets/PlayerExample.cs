@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerExample : MonoBehaviour
 {
+    // Turning rotation
+    [SerializeField] private int _degreesPerSecond;
     [SerializeField] private GameObject _model;
     [SerializeField] private GameObject _tornadoModel;
     [SerializeField] private ParticleSystem _tornadoParticles;
@@ -29,7 +31,7 @@ public class PlayerExample : MonoBehaviour
                 = Vector3.Lerp(_tornadoModel.transform.localScale, _tornadoFullScale, Time.deltaTime * 5f);
             _tornadoParticles.Play();
             _tornadoModel.SetActive(true);
-            _model.transform.Rotate(Vector3.up * 18_000 * Time.deltaTime);
+            _model.transform.Rotate(Vector3.up * _degreesPerSecond * Time.deltaTime);
         }
         else
         {
