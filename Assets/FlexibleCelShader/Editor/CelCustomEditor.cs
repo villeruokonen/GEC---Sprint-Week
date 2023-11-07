@@ -10,8 +10,8 @@ public class CelCustomEditor : MaterialEditor
 {
     float spacing = 20;
     string saveName = "Preset Name";
-    string celOutlinePath = "Custom/CelOutline";
-    string celNoOutlinePath = "Custom/Cel";
+    //string celOutlinePath = "Custom/CelOutline";
+    //string celNoOutlinePath = "Custom/Cel";
 
     void showProperty(string propertyName)
     {
