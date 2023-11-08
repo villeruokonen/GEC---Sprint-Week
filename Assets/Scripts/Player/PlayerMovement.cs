@@ -19,7 +19,8 @@ public class PlayerMovement : MonoBehaviour
             => Horizontal != 0 || Vertical != 0;
     }
 
-    private readonly float _walkSpeed = 8f;
+    private readonly float _walkSpeed = 12;
+    [SerializeField]
     private int _playerRotationAnglesPerSecond = 360;
     private Transform _playerModelT;
     
@@ -42,8 +43,8 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _playerModelT = transform.Find("PlayerModel");
-        _tornadoModelT = _playerModelT.Find("Tornado");
+        _playerModelT = transform.Find("PlayerModel/Man");
+        _tornadoModelT = transform.Find("PlayerModel/Tornado");
         _tornadoMaxScale = _tornadoModelT.localScale;
         _cameraT = Camera.main.transform;
         _tornadoParticles = _tornadoModelT.GetComponentsInChildren<ParticleSystem>();
@@ -121,6 +122,8 @@ public class PlayerMovement : MonoBehaviour
         Color transp = new Color(1, 1, 1, 0);
 
         mr.material.color = Color.Lerp(transp, Color.white, _currentTornadoRate);
+
+        mr.material.SetTextureOffset("_MainTex", new Vector2(0, Time.time * 0.5f));
 
         foreach(var ps in _tornadoParticles)
         {
