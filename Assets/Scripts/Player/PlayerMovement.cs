@@ -22,15 +22,18 @@ public class PlayerMovement : MonoBehaviour
     private readonly float _walkSpeed = 8f;
     private int _playerRotationAnglesPerSecond = 360;
     private Transform _playerModelT;
-    private Transform _tornadoModelT;
+    
     private CharacterController _char;
     private Transform _cameraT;
 
     private bool _tornadoActive = false;
 
+    [Header("Tornado")]
     [SerializeField]
     private int _tornadoAnglesPerSecond = 1200;
     private ParticleSystem[] _tornadoParticles;
+    private Transform _tornadoModelT;
+    private AudioSource _tornadoAudio;
     private readonly float _tornadoMaxRate = 1;
     private float _currentTornadoRate = 0;
 
@@ -44,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
         _tornadoMaxScale = _tornadoModelT.localScale;
         _cameraT = Camera.main.transform;
         _tornadoParticles = _tornadoModelT.GetComponentsInChildren<ParticleSystem>();
+        _tornadoAudio = _tornadoModelT.GetComponent<AudioSource>();
         _char = GetComponent<CharacterController>();
     }
 
@@ -102,6 +106,15 @@ public class PlayerMovement : MonoBehaviour
         _playerModelT.Rotate(Vector3.up, rotationAngle / 2, Space.World);
 
         _tornadoModelT.localScale = Vector3.Lerp(Vector3.zero, _tornadoMaxScale, _currentTornadoRate);
+
+        _tornadoAudio.volume = _currentTornadoRate;
+
+        _tornadoAudio.pitch = Mathf.Clamp(_currentTornadoRate, 0.8f, 1.1f);
+
+        if (_tornadoAudio.volume > 0.05f && !_tornadoAudio.isPlaying)
+            _tornadoAudio.Play();
+        else if (_tornadoAudio.volume < 0.05f)
+            _tornadoAudio.Stop();
 
         var mr = _tornadoModelT.GetComponent<MeshRenderer>();
 
