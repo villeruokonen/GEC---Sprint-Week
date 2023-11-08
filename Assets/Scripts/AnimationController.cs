@@ -7,13 +7,19 @@ public class AnimationController : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
     private Transform _hipsBone;
-    [SerializeField] private float _hipsOffset;
+    [SerializeField] private GameObject Rig;
+    private Collider[] _ragdollColliders;
+    private Rigidbody[] _RagdollRigidbodies;
+   
+
     private void Awake()
     {
         _hipsBone = _animator.GetBoneTransform(HumanBodyBones.Hips);
     }
     void Start()
     {
+        GetRagdollBits();
+        RagdollModeOff();
         _animator.SetBool("CanWalk", true);
     }
 
@@ -23,41 +29,68 @@ public class AnimationController : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
-        if (other.CompareTag("Ball"))
+        if (other.gameObject.tag ==("Ball"))
         {
-            Debug.Log("Hit");
-
-            _animator.enabled = false;
+            
             StartCoroutine(MoveAgain());
+            RagdollModeOn();
         }
+        
     }
 
     IEnumerator MoveAgain()
     {
         yield return new WaitForSeconds(3f);
-        _animator.enabled = true;
+        RagdollModeOff();
         AllignPositionToHips();
-        _animator.SetTrigger("GetUp");
-
-        // Wait for the "GetUp" animation to finish
-        yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
-
-        // Set the character's position to the hip bone's position
-        //transform.position = _hipsBone.position;
+        _animator.SetTrigger("GetUp");  
     }
 
     private void AllignPositionToHips()
     {
         Vector3 originalHipsPosition = _hipsBone.position;
         transform.position = _hipsBone.position;
+        _hipsBone.position = originalHipsPosition;
+    }
+    private void RagdollModeOn()
+    {
+        _animator.enabled = false;
 
-        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hitInfo))
+        foreach (Collider col in _ragdollColliders)
         {
-            //transform.position = new Vector3(transform.position.x, hitInfo.point.y, transform.position.z);
+            col.enabled = true;
         }
 
-        _hipsBone.position = originalHipsPosition;
+        foreach (Rigidbody rigid in _RagdollRigidbodies)
+        {
+            rigid.isKinematic = false;
+        }
+        
+        GetComponent<Collider>().enabled = false;
+        GetComponent<Rigidbody>().isKinematic = true;
+    }
+
+    private void RagdollModeOff()
+    {
+        foreach (Collider col in _ragdollColliders)
+        {
+            col.enabled = false;
+        }
+
+        foreach (Rigidbody rigid in _RagdollRigidbodies)
+        {
+            rigid.isKinematic = true;
+        }
+        _animator.enabled = true;
+       GetComponent<Collider>().enabled = true;
+       GetComponent<Rigidbody>().isKinematic = false;
+    }
+
+    private void GetRagdollBits()
+    {
+        _ragdollColliders = Rig.GetComponentsInChildren<Collider>();
+        _RagdollRigidbodies = Rig.GetComponentsInChildren<Rigidbody>();
     }
 }
