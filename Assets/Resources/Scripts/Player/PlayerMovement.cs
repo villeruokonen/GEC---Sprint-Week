@@ -108,6 +108,9 @@ public class PlayerMovement : MonoBehaviour
 
         _tornadoGroundMarkTimer = 0;
 
+        if(_currentTornadoRate < 0.2f)
+            return;
+
         var ray = new Ray(transform.position, Vector3.down);
 
         if (!Physics.Raycast(ray, out var hit, 100))
