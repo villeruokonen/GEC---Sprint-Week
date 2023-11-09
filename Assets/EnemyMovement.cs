@@ -29,6 +29,9 @@ public class EnemyMovement : MonoBehaviour
         {
             Vector3 newPos = Vector3.MoveTowards(transform.position, _target.position, _speed * Time.deltaTime);
             _rb.MovePosition(newPos);
+            Vector3 rot = transform.rotation.eulerAngles;
+            transform.LookAt(_target);
+            transform.rotation = Quaternion.Euler(rot.x, transform.rotation.eulerAngles.y, rot.z);
         }
     }
 }
