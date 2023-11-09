@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class AnimationController : MonoBehaviour
+public class EnemyRigidBodyController : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
     private Transform _hipsBone;
@@ -11,7 +11,7 @@ public class AnimationController : MonoBehaviour
     private Collider[] _ragdollColliders;
     private Rigidbody[] _RagdollRigidbodies;
     [SerializeField] private float force = 1f;
-   
+
 
     private void Awake()
     {
@@ -24,23 +24,22 @@ public class AnimationController : MonoBehaviour
         _animator.SetBool("CanWalk", true);
     }
 
-    
+
     void Update()
     {
-        
+
     }
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.tag ==("Ball"))
+        if (other.gameObject.tag == ("Ball"))
         {
-            
-            StartCoroutine(MoveAgain());
-            RagdollModeOn();
 
             
+
+
         }
-        
+
     }
 
     IEnumerator MoveAgain()
@@ -48,7 +47,7 @@ public class AnimationController : MonoBehaviour
         yield return new WaitForSeconds(3f);
         RagdollModeOff();
         AllignPositionToHips();
-        _animator.SetTrigger("GetUp");  
+        _animator.SetTrigger("GetUp");
     }
 
     private void AllignPositionToHips()
@@ -57,7 +56,7 @@ public class AnimationController : MonoBehaviour
         transform.position = _hipsBone.position;
         _hipsBone.position = originalHipsPosition;
     }
-    private void RagdollModeOn()
+    private void RagdollModeOn(Vector3 direction)
     {
         _animator.enabled = false;
 
@@ -69,9 +68,9 @@ public class AnimationController : MonoBehaviour
         foreach (Rigidbody rigid in _RagdollRigidbodies)
         {
             rigid.isKinematic = false;
-            rigid.AddForce(-transform.forward * force, ForceMode.Impulse);
+            rigid.AddForce(direction * force, ForceMode.Impulse);
         }
-        
+
         GetComponent<Collider>().enabled = false;
         GetComponent<Rigidbody>().isKinematic = true;
     }
@@ -88,13 +87,19 @@ public class AnimationController : MonoBehaviour
             rigid.isKinematic = true;
         }
         _animator.enabled = true;
-       GetComponent<Collider>().enabled = true;
-       GetComponent<Rigidbody>().isKinematic = false;
+        GetComponent<Collider>().enabled = true;
+        GetComponent<Rigidbody>().isKinematic = false;
     }
 
     private void GetRagdollBits()
     {
         _ragdollColliders = Rig.GetComponentsInChildren<Collider>();
         _RagdollRigidbodies = Rig.GetComponentsInChildren<Rigidbody>();
+    }
+
+    public void PushBack(Vector3 playerDirection)
+    {
+        StartCoroutine(MoveAgain());
+        RagdollModeOn(playerDirection);
     }
 }
