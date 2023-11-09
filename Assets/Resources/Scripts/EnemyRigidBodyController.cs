@@ -10,10 +10,34 @@ public class EnemyRigidBodyController : MonoBehaviour
     [SerializeField] private GameObject Rig;
     private Collider[] _ragdollColliders;
     private Rigidbody[] _RagdollRigidbodies;
-    //[SerializeField] private float force = 1f;
+
+    [SerializeField] private CollisionReporter _collisionReporter;
+    private Collision _lastCollision 
+        => _collisionReporter.LastCollision;
+
+    private bool CanTakeRagdollDamage;
+
+    public Animator Animator => _animator;
+
+    private float _getUpTimer = 0f;
+    private const float _getUpTimerMax = 0.33f;
+
+    private bool _tryingToGetUp = false;
 
     public bool IsRagdoll
-        => _animator.GetBool("CanWalk") == false;
+    {
+        get
+        {
+            foreach(Rigidbody rb in _RagdollRigidbodies)
+            {
+                if(!rb.isKinematic)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
 
     private void Awake()
     {
@@ -24,39 +48,76 @@ public class EnemyRigidBodyController : MonoBehaviour
         GetRagdollBits();
         RagdollModeOff();
         _animator.SetBool("CanWalk", true);
+        _collisionReporter = GetComponentInChildren<CollisionReporter>();
     }
 
-
-    void Update()
+    public void MarkAsDead()
     {
-
+        _animator.enabled = false;
+        StopAllCoroutines();
     }
 
-    //private void OnCollisionEnter(Collision other)
-    //{
-    //    if (other.gameObject.tag == ("Player"))
-    //    {
-    //        Debug.Log(other.gameObject);
-    //        PushBack(other.transform.position - transform.position);
-    //    }
-    //}
-
-    public void AllowGetUp()
+    private void Update()
     {
-        StartCoroutine(MoveAgain());
+        if(_lastCollision != null)
+        {
+            if(CanTakeRagdollDamage)
+            {
+                int damage = Mathf.RoundToInt(_lastCollision.relativeVelocity.magnitude / 6);
+                Debug.Log("Damage: " + damage);
+                GetComponent<Enemy>().TakeDamage(damage);
+            }
+        }
+
+        if(IsRagdoll)
+        {
+            //TryGetUp();
+        }
+
+        if(_getUpTimer < _getUpTimerMax)
+        {
+            _getUpTimer += Time.deltaTime;
+        }
+    }
+
+    private void TryGetUp()
+    {
+        if(_getUpTimer < _getUpTimerMax)
+        {
+            return;
+        }
+
+        _getUpTimer = 0f;
+
+        var rb = GetComponent<Rigidbody>();
+
+        if(rb.velocity.magnitude < 0.1f)
+        {
+            RagdollModeOff();
+            AllignPositionToHips();
+            _animator.SetTrigger("GetUp");
+        }
     }
 
     IEnumerator MoveAgain()
     {
+        if(_tryingToGetUp)
+            yield break;
+
+        _tryingToGetUp = true;
+
         var rb = GetComponent<Rigidbody>();
-        while (rb.velocity.magnitude > 0.1f)
+        while (rb.velocity.magnitude > 0.04f)
         {
             yield return new WaitForSeconds(1);
         }
         yield return new WaitForSeconds(Random.Range(3.0f, 4.0f));
+
         RagdollModeOff();
         AllignPositionToHips();
         _animator.SetTrigger("GetUp");
+
+        _tryingToGetUp = false;
     }
 
     private void AllignPositionToHips()
@@ -68,6 +129,8 @@ public class EnemyRigidBodyController : MonoBehaviour
 
     public void AddRagdollForce(Vector3 force)
     {
+        RagdollModeOn(Vector3.zero);
+
         foreach (Rigidbody rigid in _RagdollRigidbodies)
         {
             rigid.AddForce(force, ForceMode.Impulse);
@@ -86,9 +149,9 @@ public class EnemyRigidBodyController : MonoBehaviour
         foreach (Rigidbody rigid in _RagdollRigidbodies)
         {
             rigid.isKinematic = false;
-            //rigid.AddForce(direction * force, ForceMode.Impulse);
         }
 
+        // Take damage equal to force
         GetComponent<Enemy>().TakeDamage(Mathf.RoundToInt(direction.magnitude));
 
         GetComponent<Collider>().enabled = false;
@@ -109,6 +172,7 @@ public class EnemyRigidBodyController : MonoBehaviour
         _animator.enabled = true;
         GetComponent<Collider>().enabled = true;
         GetComponent<Rigidbody>().isKinematic = false;
+        CanTakeRagdollDamage = false;
     }
 
     private void GetRagdollBits()
@@ -119,19 +183,23 @@ public class EnemyRigidBodyController : MonoBehaviour
 
     public void SetRagdoll()
     {
-        //StartCoroutine(MoveAgain());
+        StartCoroutine(MoveAgain());
         RagdollModeOn(Vector3.zero);
+
+        CanTakeRagdollDamage = false;
     }
 
     public void SetRagdollWithForce(Vector3 force)
     {
         StartCoroutine(MoveAgain());
         RagdollModeOn(force);
+
+        CanTakeRagdollDamage = true;
     }
 
     public void PushBack(Vector3 playerDirection)
     {
-        //StartCoroutine(MoveAgain());
+        StartCoroutine(MoveAgain());
         RagdollModeOn(playerDirection);
     }
 }

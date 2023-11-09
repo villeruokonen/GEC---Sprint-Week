@@ -94,7 +94,7 @@ public class Player : MonoBehaviour
 
             _physicsEnemies.Add(enemy.gameObject);
             ParentToPlayer(enemy.transform);
-            SignalEnemyRagdoll(enemy.gameObject);
+            SetEnemyRagdollNoDamage(enemy.gameObject);
         }
     }
 
@@ -105,9 +105,8 @@ public class Player : MonoBehaviour
             if (col.CompareTag("Enemy"))
             {
                 _physicsEnemies.Add(col.gameObject);
-                //col.GetComponent<Enemy>().Ragdoll();
                 ParentToPlayer(col.transform);
-                SignalEnemyRagdoll(col.gameObject);
+                SetEnemyRagdollNoDamage(col.gameObject);
             }
         }
     }
@@ -125,8 +124,6 @@ public class Player : MonoBehaviour
 
         if (rbController == null)
             return;
-
-        rbController.AllowGetUp();
     }
 
     void RemoveAllEnemiesFromTornado()
@@ -139,6 +136,9 @@ public class Player : MonoBehaviour
             DeparentFromPlayer(enemy.transform);
 
             ApplyForceToEnemy(enemy);
+
+            // Hack: zero vector for no damage but sets damage flag in ragdoll
+            SetEnemyRagdollWithForceDamage(enemy, Vector3.zero);
         }
 
         _physicsEnemies.Clear();
@@ -176,17 +176,26 @@ public class Player : MonoBehaviour
         var rbController = t.GetComponent<EnemyRigidBodyController>();
         if (rbController == null)
             return;
-
-        rbController.AddRagdollForce(rotationDir / 4);
+        
+        rbController.AddRagdollForce(rotationDir.normalized);
         
     }
 
-    void SignalEnemyRagdoll(GameObject enemy)
+    void SetEnemyRagdollNoDamage(GameObject enemy)
     {
         var rbController = enemy.GetComponent<EnemyRigidBodyController>();
         if (rbController == null)
             return;
 
         rbController.SetRagdoll();
+    }
+
+    void SetEnemyRagdollWithForceDamage(GameObject enemy, Vector3 force)
+    {
+        var rbController = enemy.GetComponent<EnemyRigidBodyController>();
+        if (rbController == null)
+            return;
+
+        rbController.SetRagdollWithForce(force);
     }
 }
