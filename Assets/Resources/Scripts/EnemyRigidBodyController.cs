@@ -32,14 +32,11 @@ public class EnemyRigidBodyController : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.tag == ("Ball"))
+        if (other.gameObject.tag == ("Player"))
         {
-
-            
-
-
+            Debug.Log(other.gameObject);
+            PushBack(other.transform.position - transform.position);
         }
-
     }
 
     IEnumerator MoveAgain()
