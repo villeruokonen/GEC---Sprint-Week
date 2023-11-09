@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Mail;
 using UnityEngine;
 
 [System.Serializable]
@@ -13,27 +14,33 @@ public class SpawnArea
 public class Spawner : MonoBehaviour
 {
     public List<SpawnArea> spawnAreas; // Define the areas using GameObjects with Collider
+    public List<Transform> spawnPointsHeavy = new();
     public float minDelay = 1.0f; // Minimum delay in seconds between enemy spawns
     public float maxDelay = 2.0f; // Maximum delay in seconds between enemy spawns
+    
 
     private int _currentWave = 1;
     private int _totalEnemiesInWave;
     private GameObject _enemyPrefab;
+    private GameObject _heavyEnemyPrefab;
     private List<SpawnArea> _availableSpawnAreas;
+    private List<Transform> _availableSpawnAreasHeavy;
     private List<int> _numberEnemiesPerArea;
 
     void Start()
     {
         _enemyPrefab = Resources.Load<GameObject>("Enemy");
+        _heavyEnemyPrefab = Resources.Load<GameObject>("HeavyEnemy");
         CalculateAmountOfEnemies();
         _availableSpawnAreas = new List<SpawnArea>(spawnAreas);
+        _availableSpawnAreasHeavy = spawnPointsHeavy;
         _numberEnemiesPerArea = CalculateEnemiesPerSpawnArea();
-        StartCoroutine(SpawnWaveWithRandomDelay());
+        StartCoroutine(SpawnLightEnemies());
     }
 
     private void CalculateAmountOfEnemies()
     {
-        _totalEnemiesInWave = _currentWave * 10;
+        _totalEnemiesInWave = _currentWave * 6;
     }
 
     void Update()
@@ -65,8 +72,6 @@ public class Spawner : MonoBehaviour
             enemiesToSpawnPerArea.Add(enemiesToSpawn);
         }
 
-        Debug.Log("Current Wave: " + _currentWave);
-
         for (var i = 0; i < spawnAreas.Count; i++)
         {
             Debug.Log("Spawning " + enemiesToSpawnPerArea[i] + " in " + spawnAreas[i].pathName);
@@ -76,7 +81,7 @@ public class Spawner : MonoBehaviour
     }
 
     // Spawns enemies with a random delay between spawns
-    private IEnumerator SpawnWaveWithRandomDelay()
+    private IEnumerator SpawnLightEnemies()
     {
         while (_availableSpawnAreas.Count > 0)
         {
@@ -84,6 +89,17 @@ public class Spawner : MonoBehaviour
             var spawnArea = _availableSpawnAreas[randomSpawnAreaIndex];
 
             var spawnAreaCollider = spawnArea.areaGameObject.GetComponent<Collider>();
+
+            
+
+            if (_numberEnemiesPerArea[randomSpawnAreaIndex] <= 0)
+            {
+                _availableSpawnAreas.RemoveAt(randomSpawnAreaIndex);
+                _numberEnemiesPerArea.RemoveAt(randomSpawnAreaIndex);
+                continue;
+            }
+
+            _numberEnemiesPerArea[randomSpawnAreaIndex]--;
 
             if (spawnAreaCollider != null)
             {
@@ -100,17 +116,33 @@ public class Spawner : MonoBehaviour
                 var randomSpeedMultiplier = Random.Range(0.8f, 1.5f);
                 enemy.GetComponent<EnemyMovement>().speed *= randomSpeedMultiplier;
 
-                _numberEnemiesPerArea[randomSpawnAreaIndex]--;
-
-                if (_numberEnemiesPerArea[randomSpawnAreaIndex] <= 0)
-                {
-                    _availableSpawnAreas.RemoveAt(randomSpawnAreaIndex);
-                    _numberEnemiesPerArea.RemoveAt(randomSpawnAreaIndex);
-                }
+                
 
                 var randomDelay = Random.Range(minDelay, maxDelay);
                 yield return new WaitForSeconds(randomDelay);
             }
+        }
+    }
+
+    private int CalculateNumberOfHeavyEnemies()
+    {
+        var numberOfHeavyInWaves = Mathf.RoundToInt(_totalEnemiesInWave * .1f);
+        Debug.Log("Spawning " + numberOfHeavyInWaves + " heavy enemies");
+        return numberOfHeavyInWaves;
+    }
+
+    IEnumerator SpawnHeavyEnemies()
+    {
+        var heavyToSpawn = CalculateNumberOfHeavyEnemies();
+
+        for (var i = 0; i < heavyToSpawn; i++)
+        {
+            var randomSpawnPoint = Random.Range(0, _availableSpawnAreasHeavy.Count);
+
+            Instantiate(_heavyEnemyPrefab, _availableSpawnAreasHeavy[randomSpawnPoint]);
+
+            var randomDelay = Random.Range(8, 16);
+            yield return new WaitForSeconds(randomDelay);
         }
     }
 
@@ -120,6 +152,11 @@ public class Spawner : MonoBehaviour
         CalculateAmountOfEnemies();
         _availableSpawnAreas = new List<SpawnArea>(spawnAreas);
         _numberEnemiesPerArea = CalculateEnemiesPerSpawnArea();
-        StartCoroutine(SpawnWaveWithRandomDelay());
+        StartCoroutine(SpawnLightEnemies());
+
+        if (_currentWave >= 3)
+        {
+            StartCoroutine(SpawnHeavyEnemies());
+        }
     }
 }
