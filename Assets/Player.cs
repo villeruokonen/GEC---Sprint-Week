@@ -32,6 +32,8 @@ public class Player : MonoBehaviour
         if (IsTornado)
         {
             RotateEnemiesInTornado();
+
+            CheckForEnemiesToPickUp();
         }
         else
         {
@@ -52,7 +54,22 @@ public class Player : MonoBehaviour
             if (enemy == null)
                 continue;
 
-            RotateAroundPlayer(enemy.transform, _playerMovement.TornadoAPS / 4);
+            RotateAroundPlayer(enemy.transform, _playerMovement.TornadoAPS / 2);
+        }
+    }
+
+    void CheckForEnemiesToPickUp()
+    {
+        var enemies = Physics.OverlapSphere(transform.position, 8, LayerMask.GetMask("Enemy"));
+
+        foreach (var enemy in enemies)
+        {
+            if (_physicsEnemies.Contains(enemy.gameObject))
+                continue;
+
+            _physicsEnemies.Add(enemy.gameObject);
+            ParentToPlayer(enemy.transform);
+            SignalEnemyRagdoll(enemy.gameObject);
         }
     }
 
@@ -65,6 +82,7 @@ public class Player : MonoBehaviour
                 _physicsEnemies.Add(col.gameObject);
                 //col.GetComponent<Enemy>().Ragdoll();
                 ParentToPlayer(col.transform);
+                SignalEnemyRagdoll(col.gameObject);
             }
         }
     }
@@ -77,6 +95,13 @@ public class Player : MonoBehaviour
     void DeparentFromPlayer(Transform t)
     {
         t.SetParent(null);
+
+        var rbController = t.GetComponent<EnemyRigidBodyController>();
+
+        if (rbController == null)
+            return;
+
+        rbController.AllowGetUp();
     }
 
     void RemoveAllEnemiesFromTornado()
@@ -88,8 +113,6 @@ public class Player : MonoBehaviour
 
             DeparentFromPlayer(enemy.transform);
 
-            //enemy.GetComponent<Enemy>().Unragdoll();
-
             ApplyForceToEnemy(enemy);
         }
 
@@ -98,15 +121,15 @@ public class Player : MonoBehaviour
 
     void ApplyForceToEnemy(GameObject enemy)
     {
-        Rigidbody rb = enemy.GetComponent<Rigidbody>();
-        if (rb == null)
+        var rbController = enemy.GetComponent<EnemyRigidBodyController>();
+        if (rbController == null)
             return;
 
         Vector3 force = enemy.transform.position - transform.position;
         force.y = 0;
         force.Normalize();
-        force *= 10;
-        rb.AddForce(force, ForceMode.Impulse);
+
+        rbController.AddRagdollForce(force * _playerMovement.TornadoAPS / 4);
     }
 
     void RotateAroundPlayer(Transform t, int angles)
@@ -125,19 +148,20 @@ public class Player : MonoBehaviour
 
         t.RotateAround(center, Vector3.up, angles * Time.deltaTime);
 
-        Rigidbody rb;
-        if ((rb = t.GetComponent<Rigidbody>()) == null)
-        {
-            t.position = newPos;
+        var rbController = t.GetComponent<EnemyRigidBodyController>();
+        if (rbController == null)
             return;
-        }
 
-        //rb.AddForce(rotationDir, ForceMode.Impulse);
+        rbController.AddRagdollForce(rotationDir / 4);
         
     }
 
     void SignalEnemyRagdoll(GameObject enemy)
     {
+        var rbController = enemy.GetComponent<EnemyRigidBodyController>();
+        if (rbController == null)
+            return;
 
+        rbController.SetRagdoll();
     }
 }

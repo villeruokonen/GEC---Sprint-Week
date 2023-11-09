@@ -10,8 +10,10 @@ public class EnemyRigidBodyController : MonoBehaviour
     [SerializeField] private GameObject Rig;
     private Collider[] _ragdollColliders;
     private Rigidbody[] _RagdollRigidbodies;
-    [SerializeField] private float force = 1f;
+    //[SerializeField] private float force = 1f;
 
+    public bool IsRagdoll
+        => _animator.enabled == false;
 
     private void Awake()
     {
@@ -30,18 +32,28 @@ public class EnemyRigidBodyController : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter(Collision other)
+    //private void OnCollisionEnter(Collision other)
+    //{
+    //    if (other.gameObject.tag == ("Player"))
+    //    {
+    //        Debug.Log(other.gameObject);
+    //        PushBack(other.transform.position - transform.position);
+    //    }
+    //}
+
+    public void AllowGetUp()
     {
-        if (other.gameObject.tag == ("Player"))
-        {
-            Debug.Log(other.gameObject);
-            PushBack(other.transform.position - transform.position);
-        }
+        StartCoroutine(MoveAgain());
     }
 
     IEnumerator MoveAgain()
     {
-        yield return new WaitForSeconds(3f);
+        var rb = GetComponent<Rigidbody>();
+        while (rb.velocity.magnitude > 0.1f)
+        {
+            yield return new WaitForSeconds(1);
+        }
+        yield return new WaitForSeconds(Random.Range(3.0f, 4.0f));
         RagdollModeOff();
         AllignPositionToHips();
         _animator.SetTrigger("GetUp");
@@ -53,6 +65,15 @@ public class EnemyRigidBodyController : MonoBehaviour
         transform.position = _hipsBone.position;
         _hipsBone.position = originalHipsPosition;
     }
+
+    public void AddRagdollForce(Vector3 force)
+    {
+        foreach (Rigidbody rigid in _RagdollRigidbodies)
+        {
+            rigid.AddForce(force, ForceMode.Impulse);
+        }
+    }
+
     private void RagdollModeOn(Vector3 direction)
     {
         _animator.enabled = false;
@@ -65,7 +86,7 @@ public class EnemyRigidBodyController : MonoBehaviour
         foreach (Rigidbody rigid in _RagdollRigidbodies)
         {
             rigid.isKinematic = false;
-            rigid.AddForce(direction * force, ForceMode.Impulse);
+            //rigid.AddForce(direction * force, ForceMode.Impulse);
         }
 
         GetComponent<Collider>().enabled = false;
@@ -94,9 +115,15 @@ public class EnemyRigidBodyController : MonoBehaviour
         _RagdollRigidbodies = Rig.GetComponentsInChildren<Rigidbody>();
     }
 
+    public void SetRagdoll()
+    {
+        //StartCoroutine(MoveAgain());
+        RagdollModeOn(Vector3.zero);
+    }
+
     public void PushBack(Vector3 playerDirection)
     {
-        StartCoroutine(MoveAgain());
+        //StartCoroutine(MoveAgain());
         RagdollModeOn(playerDirection);
     }
 }

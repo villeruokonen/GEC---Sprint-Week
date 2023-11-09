@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
     private Transform _cameraT;
 
     public bool IsTornado
-        => _tornadoActive || _currentTornadoRate > 0.1f;
+        => _tornadoActive && _currentTornadoRate > 0.1f;
 
     public int TornadoAPS => _tornadoAnglesPerSecond;
 
