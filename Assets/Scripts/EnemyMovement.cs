@@ -15,6 +15,6 @@ public class EnemyMovement : MonoBehaviour
 
     void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, target.position, .5f * speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, target.position, 1f * speed * Time.deltaTime);
     }
 }

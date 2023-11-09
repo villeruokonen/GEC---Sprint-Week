@@ -65,7 +65,7 @@ public class Spawner : MonoBehaviour
             enemiesToSpawnPerArea.Add(enemiesToSpawn);
         }
 
-        Debug.Log(_currentWave);
+        Debug.Log("Current Wave: " + _currentWave);
 
         for (var i = 0; i < spawnAreas.Count; i++)
         {
