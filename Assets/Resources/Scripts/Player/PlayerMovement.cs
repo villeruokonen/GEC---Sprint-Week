@@ -23,15 +23,23 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private int _playerRotationAnglesPerSecond = 360;
     private Transform _playerModelT;
-    
+
     private CharacterController _char;
     private Transform _cameraT;
 
-    private bool _tornadoActive = false;
+    public bool IsTornado
+        => _tornadoActive || _currentTornadoRate > 0.1f;
+
+    public int TornadoAPS => _tornadoAnglesPerSecond;
+
+    private bool _tornadoActive;
 
     [Header("Tornado")]
+
+    
     [SerializeField]
     private int _tornadoAnglesPerSecond = 1200;
+    
     private ParticleSystem[] _tornadoParticles;
     private Transform _tornadoModelT;
     private AudioSource _tornadoAudio;
@@ -43,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
     private static GameObject _tornadoGroundMarkPrefab;
 
     private const float _tornadoGroundMarkRate = 0.1f;
-    private float _tornadoGroundMarkTimer = 0;
+    private float _tornadoGroundMarkTimer;
 
     // Start is called before the first frame update
     void Start()
@@ -138,14 +146,14 @@ public class PlayerMovement : MonoBehaviour
 
         actualMovement.y = Physics.gravity.y * Time.deltaTime;
 
-        if(input.IsMoving)
+        if (input.IsMoving)
         {
             _playerModelT.Rotate(Vector3.up, _playerRotationAnglesPerSecond * Time.deltaTime);
 
             //if (!_tornadoActive)
             //    TryCreatePlayerGroundMark();
         }
-        
+
         _char.Move(actualMovement);
     }
 
@@ -183,7 +191,7 @@ public class PlayerMovement : MonoBehaviour
 
         mr.material.SetTextureOffset("_MainTex", new Vector2(0, Time.time * 0.5f));
 
-        foreach(var ps in _tornadoParticles)
+        foreach (var ps in _tornadoParticles)
         {
             if (_currentTornadoRate > 0.1f)
                 ps.Play();
