@@ -64,6 +64,31 @@ public class PlayerMovement : MonoBehaviour
         UpdateMovement();
     }
 
+    void TryCreatePlayerGroundMark()
+    {
+        // Just using the tornado mark timer for now
+        _tornadoGroundMarkTimer += Time.deltaTime * 1.8f;
+        if (_tornadoGroundMarkTimer < _tornadoGroundMarkRate)
+            return;
+
+        _tornadoGroundMarkTimer = 0;
+
+        var ray = new Ray(transform.position, Vector3.down);
+
+        if (!Physics.Raycast(ray, out var hit, 100))
+            return;
+
+        Vector3 pos = hit.point + hit.normal * 0.08f;
+
+        var groundMark = Instantiate(_tornadoGroundMarkPrefab, pos, Quaternion.identity);
+
+        groundMark.transform.localScale *= Random.Range(0.4f, 0.8f);
+
+        groundMark.transform.Rotate(Vector3.up, Random.Range(0, 360));
+
+        groundMark.transform.up = hit.normal;
+    }
+
     void TryCreateTornadoGroundMark()
     {
         _tornadoGroundMarkTimer += Time.deltaTime;
@@ -116,6 +141,9 @@ public class PlayerMovement : MonoBehaviour
         if(input.IsMoving)
         {
             _playerModelT.Rotate(Vector3.up, _playerRotationAnglesPerSecond * Time.deltaTime);
+
+            //if (!_tornadoActive)
+            //    TryCreatePlayerGroundMark();
         }
         
         _char.Move(actualMovement);

@@ -288,7 +288,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 234655032}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.09819007, y: 0.00000012087276, z: -0.00000010597206, w: 0.9951677}
+  m_LocalRotation: {x: 0.054543436, y: 0.00000008202226, z: -0.00000009776224, w: 0.99851143}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -370,7 +370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 2
-  m_FollowOffset: {x: 0, y: 12.89, z: -18}
+  m_FollowOffset: {x: 0, y: 24, z: -18}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -565,7 +565,7 @@ Transform:
   m_GameObject: {fileID: 914252406}
   serializedVersion: 2
   m_LocalRotation: {x: 0.39776275, y: -0.00000013169884, z: 0.000000057095978, w: 0.91748834}
-  m_LocalPosition: {x: 0, y: 12.89, z: -18}
+  m_LocalPosition: {x: 0, y: 24, z: -18}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -608,21 +608,21 @@ MonoBehaviour:
     FocusDistance: 10
     m_SensorSize: {x: 1, y: 1}
   m_Transitions:
-    m_BlendHint: 2
+    m_BlendHint: 3
     m_InheritPosition: 0
     m_OnCameraLive:
       m_PersistentCalls:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_YAxis:
-    Value: 0
+    Value: 1
     m_SpeedMode: 0
     m_MaxSpeed: 5
     m_AccelTime: 0.04
     m_DecelTime: 0.04
     m_InputAxisName: Mouse Y
     m_InputAxisValue: 0
-    m_InvertInput: 0
+    m_InvertInput: 1
     m_MinValue: 0
     m_MaxValue: 1
     m_Wrap: 0
@@ -640,8 +640,8 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
     Value: 0
-    m_SpeedMode: 0
-    m_MaxSpeed: 600
+    m_SpeedMode: 1
+    m_MaxSpeed: 2
     m_AccelTime: 0.04
     m_DecelTime: 0.04
     m_InputAxisName: Mouse X
@@ -667,13 +667,13 @@ MonoBehaviour:
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
   m_BindingMode: 2
-  m_SplineCurvature: 0.179
+  m_SplineCurvature: 0.378
   m_Orbits:
-  - m_Height: 23.58
+  - m_Height: 24
     m_Radius: 18
-  - m_Height: 12.89
+  - m_Height: 24
     m_Radius: 18
-  - m_Height: 12.89
+  - m_Height: 24
     m_Radius: 18
   m_LegacyHeadingBias: 3.4028235e+38
   m_Rigs:
@@ -751,7 +751,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 973620086}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.17360316, y: 0.00000011481995, z: -0.00000008614472, w: 0.9848157}
+  m_LocalRotation: {x: -0.02156651, y: 0.00000010035819, z: -0.000000102629286, w: 0.9997674}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -914,7 +914,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 2
-  m_FollowOffset: {x: 0, y: 12.89, z: -18}
+  m_FollowOffset: {x: 0, y: 24, z: -18}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -1038,7 +1038,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1826130837}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.13621505, y: 0.00000011147815, z: -0.00000009042763, w: 0.9906793}
+  m_LocalRotation: {x: 0.016278476, y: 0.0000001086904, z: -0.0000001199088, w: 0.99986756}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1166,8 +1166,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1914812268}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.23244411, y: 0, z: 0, w: 0.97260976}
-  m_LocalPosition: {x: 0, y: 12.89, z: -18}
+  m_LocalRotation: {x: 0.44721362, y: -0.000000014247941, z: 0.0000000071239703, w: 0.89442724}
+  m_LocalPosition: {x: 0, y: 24, z: -18}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1220,7 +1220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 2
-  m_FollowOffset: {x: 0, y: 12.89, z: -18}
+  m_FollowOffset: {x: 0, y: 24, z: -18}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
