@@ -10,6 +10,7 @@ public class AnimationController : MonoBehaviour
     [SerializeField] private GameObject Rig;
     private Collider[] _ragdollColliders;
     private Rigidbody[] _RagdollRigidbodies;
+    [SerializeField] private float force = 1f;
    
 
     private void Awake()
@@ -36,6 +37,8 @@ public class AnimationController : MonoBehaviour
             
             StartCoroutine(MoveAgain());
             RagdollModeOn();
+
+            
         }
         
     }
@@ -66,6 +69,7 @@ public class AnimationController : MonoBehaviour
         foreach (Rigidbody rigid in _RagdollRigidbodies)
         {
             rigid.isKinematic = false;
+            rigid.AddForce(-transform.forward * force, ForceMode.Impulse);
         }
         
         GetComponent<Collider>().enabled = false;
