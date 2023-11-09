@@ -53,6 +53,9 @@ public class PlayerMovement : MonoBehaviour
     private const float _tornadoGroundMarkRate = 0.1f;
     private float _tornadoGroundMarkTimer;
 
+    public bool IsMoving
+        => _char.velocity.magnitude > 0.1f;
+
     // Start is called before the first frame update
     void Start()
     {

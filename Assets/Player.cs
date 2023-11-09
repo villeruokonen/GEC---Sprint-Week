@@ -20,6 +20,8 @@ public class Player : MonoBehaviour
 
     private bool IsTornado => _playerMovement.IsTornado;
 
+    [SerializeField] private float _kickForce = 10f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,6 +41,29 @@ public class Player : MonoBehaviour
         {
             if (_physicsEnemies.Count > 0)
                 RemoveAllEnemiesFromTornado();
+        }
+    }
+
+    void OnCollisionEnter(Collision col)
+    {
+        if (IsTornado)
+            return;
+
+        if (!_playerMovement.IsMoving)
+            return;
+
+        if (col.gameObject.CompareTag("Enemy"))
+        {
+            var rbController = col.gameObject.GetComponent<EnemyRigidBodyController>();
+
+            if (rbController == null)
+                return;
+
+            Vector3 force = (col.transform.position - transform.position).normalized;
+
+            force *= _kickForce;
+
+            rbController.SetRagdollWithForce(force);
         }
     }
 

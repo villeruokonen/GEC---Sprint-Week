@@ -89,6 +89,8 @@ public class EnemyRigidBodyController : MonoBehaviour
             //rigid.AddForce(direction * force, ForceMode.Impulse);
         }
 
+        GetComponent<Enemy>().TakeDamage(Mathf.RoundToInt(direction.magnitude));
+
         GetComponent<Collider>().enabled = false;
         GetComponent<Rigidbody>().isKinematic = true;
     }
@@ -119,6 +121,12 @@ public class EnemyRigidBodyController : MonoBehaviour
     {
         //StartCoroutine(MoveAgain());
         RagdollModeOn(Vector3.zero);
+    }
+
+    public void SetRagdollWithForce(Vector3 force)
+    {
+        StartCoroutine(MoveAgain());
+        RagdollModeOn(force);
     }
 
     public void PushBack(Vector3 playerDirection)

@@ -13,7 +13,7 @@ public class EnemyMovement : MonoBehaviour
     private Rigidbody _rb;
 
     private bool IsRagdoll
-        => _rbController.IsRagdoll;
+        => _rbController.IsRagdoll || _rb.isKinematic;
     // Start is called before the first frame update
     void Start()
     {
