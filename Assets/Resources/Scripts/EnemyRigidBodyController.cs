@@ -13,7 +13,7 @@ public class EnemyRigidBodyController : MonoBehaviour
     //[SerializeField] private float force = 1f;
 
     public bool IsRagdoll
-        => _animator.enabled == false || _animator.GetBool("CanWalk") == false;
+        => _animator.GetBool("CanWalk") == false;
 
     private void Awake()
     {
