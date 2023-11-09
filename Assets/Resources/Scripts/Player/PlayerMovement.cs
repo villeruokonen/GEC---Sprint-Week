@@ -40,6 +40,11 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 _tornadoMaxScale;
 
+    private static GameObject _tornadoGroundMarkPrefab;
+
+    private const float _tornadoGroundMarkRate = 0.1f;
+    private float _tornadoGroundMarkTimer = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -49,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
         _cameraT = Camera.main.transform;
         _tornadoParticles = _tornadoModelT.GetComponentsInChildren<ParticleSystem>();
         _tornadoAudio = _tornadoModelT.GetComponent<AudioSource>();
+        _tornadoGroundMarkPrefab = Resources.Load<GameObject>("Prefabs/TornadoGroundMark");
         _char = GetComponent<CharacterController>();
     }
 
@@ -56,6 +62,30 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         UpdateMovement();
+    }
+
+    void TryCreateTornadoGroundMark()
+    {
+        _tornadoGroundMarkTimer += Time.deltaTime;
+        if (_tornadoGroundMarkTimer < _tornadoGroundMarkRate)
+            return;
+
+        _tornadoGroundMarkTimer = 0;
+
+        var ray = new Ray(transform.position, Vector3.down);
+
+        if (!Physics.Raycast(ray, out var hit, 100))
+            return;
+
+        Vector3 pos = hit.point + hit.normal * 0.08f;
+
+        var groundMark = Instantiate(_tornadoGroundMarkPrefab, pos, Quaternion.identity);
+
+        groundMark.transform.localScale *= Random.Range(1f, 1.8f);
+
+        groundMark.transform.Rotate(Vector3.up, Random.Range(0, 360));
+
+        groundMark.transform.up = hit.normal;
     }
 
     void UpdateMovement()
@@ -132,6 +162,9 @@ public class PlayerMovement : MonoBehaviour
             else
                 ps.Stop();
         }
+
+        if (_currentTornadoRate > 0.1f)
+            TryCreateTornadoGroundMark();
     }
 
     private void StartTornado()
