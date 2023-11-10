@@ -8,13 +8,40 @@ public class EnemyMovement : MonoBehaviour
     // Accessed by the Spawner script
     public float speed;
     private Transform target;
+    public bool canMove = true;
+ 
 
     void Start()
     {
+      
         target = GameObject.FindGameObjectWithTag("Target").transform;
     }
 
     void Update()
+    {
+        if (canMove)
+        {
+            Move();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Target"))
+        {
+            canMove = false;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Target"))
+        {
+            canMove = true;
+        }
+    }
+
+    private void Move()
     {
         if (target == null)
             return;

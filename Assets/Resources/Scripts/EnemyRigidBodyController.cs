@@ -80,6 +80,7 @@ public class EnemyRigidBodyController : MonoBehaviour
         RagdollModeOff();
         AllignPositionToHips();
         _animator.SetTrigger("GetUp");
+        StartCoroutine(TimerGetUp());
 
         while(_animator.GetCurrentAnimatorStateInfo(0).IsName("GetUp"))
         {
@@ -87,6 +88,13 @@ public class EnemyRigidBodyController : MonoBehaviour
         }
 
         _tryingToGetUp = false;
+    }
+
+    IEnumerator TimerGetUp()
+    {
+        GetComponent<EnemyMovement>().canMove=false;
+        yield return new WaitForSeconds(2.2f);
+        GetComponent<EnemyMovement>().canMove=true;
     }
 
     private void AllignPositionToHips()
@@ -109,6 +117,7 @@ public class EnemyRigidBodyController : MonoBehaviour
     private void RagdollModeOn(Vector3 direction)
     {
         _animator.enabled = false;
+        GetComponent<EnemyMovement>().canMove = false;
 
         foreach (Collider col in _ragdollColliders)
         {
@@ -129,6 +138,10 @@ public class EnemyRigidBodyController : MonoBehaviour
 
     private void RagdollModeOff()
     {
+        _animator.SetBool("CanAttack", false);
+        _animator.SetBool("CanWalk", true);
+        GetComponent<EnemyMovement>().canMove = true;
+
         foreach (Collider col in _ragdollColliders)
         {
             col.enabled = false;
@@ -170,5 +183,24 @@ public class EnemyRigidBodyController : MonoBehaviour
     {
         StartCoroutine(MoveAgain());
         RagdollModeOn(playerDirection);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Target"))
+        {
+           _animator.SetBool("CanWalk", false);
+            _animator.SetBool("CanAttack", true);
+        }
+        
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Target"))
+        {
+            _animator.SetBool("CanWalk", true);
+            _animator.SetBool("CanAttack", false);
+        }
     }
 }
