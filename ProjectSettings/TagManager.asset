@@ -6,11 +6,12 @@ TagManager:
   tags:
   - Totem
   - Enemy
+  - Target
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Enemy
   - Water
   - UI
   - 
