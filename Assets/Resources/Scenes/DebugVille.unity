@@ -142,7 +142,7 @@ GameObject:
   - component: {fileID: 128929442}
   m_Layer: 0
   m_Name: Totem Pole
-  m_TagString: Totem
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -866,15 +866,15 @@ PrefabInstance:
       objectReference: {fileID: 6149639221792583013}
     - target: {fileID: 4280097494782303444, guid: 7327a9b60afd47c43a45d303cddadee3, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.016278446
+      value: 0.016278505
       objectReference: {fileID: 0}
     - target: {fileID: 4280097494782303444, guid: 7327a9b60afd47c43a45d303cddadee3, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.00000010795877
+      value: 0.00000008484723
       objectReference: {fileID: 0}
     - target: {fileID: 4280097494782303444, guid: 7327a9b60afd47c43a45d303cddadee3, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.00000011910164
+      value: -0.00000009360469
       objectReference: {fileID: 0}
     - target: {fileID: 5229906395678883600, guid: 7327a9b60afd47c43a45d303cddadee3, type: 3}
       propertyPath: m_Name

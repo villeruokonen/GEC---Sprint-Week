@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
+    // Accessed by the Spawner script
     public float speed;
     private Transform target;
 
@@ -15,6 +16,13 @@ public class EnemyMovement : MonoBehaviour
 
     void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, target.position, 1f * speed * Time.deltaTime);
+        if (target == null)
+            return;
+
+        transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+
+        transform.LookAt(target);
+
+        transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
     }
 }

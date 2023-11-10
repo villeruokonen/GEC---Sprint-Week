@@ -21,16 +21,21 @@ public class Spawner : MonoBehaviour
 
     private int _currentWave = 1;
     private int _totalEnemiesInWave;
-    private GameObject _enemyPrefab;
-    private GameObject _heavyEnemyPrefab;
+    private static GameObject _enemyPrefab;
+    private static GameObject _heavyEnemyPrefab;
     private List<SpawnArea> _availableSpawnAreas;
     private List<Transform> _availableSpawnAreasHeavy;
     private List<int> _numberEnemiesPerArea;
 
     void Start()
     {
-        _enemyPrefab = Resources.Load<GameObject>("Enemy");
-        _heavyEnemyPrefab = Resources.Load<GameObject>("HeavyEnemy");
+        // NOTE: Resources.Load requires that the asset is in the Resources folder (Assets/Resources)
+        // I moved it to Resources/Prefabs/Enemies to keep things organized. 
+        // We can also set the fields _enemyPrefab and _heavyEnemyPrefab as static
+        // since only one instance of each prefab is needed (memory optimization)
+
+        _enemyPrefab = Resources.Load<GameObject>("Prefabs/Enemies/RagdollEnemy");
+        _heavyEnemyPrefab = Resources.Load<GameObject>("Prefabs/Enemies/HeavyEnemy");
         CalculateAmountOfEnemies();
         _availableSpawnAreas = new List<SpawnArea>(spawnAreas);
         _availableSpawnAreasHeavy = spawnPointsHeavy;

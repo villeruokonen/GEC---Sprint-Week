@@ -25,6 +25,8 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         _damageTimer += Time.deltaTime;
+
+        _movement.enabled = !_rbController.IsRagdoll;
     }
 
     public void TakeDamage(int amount)

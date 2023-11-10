@@ -25,19 +25,7 @@ public class EnemyRigidBodyController : MonoBehaviour
     private bool _tryingToGetUp = false;
 
     public bool IsRagdoll
-    {
-        get
-        {
-            foreach(Rigidbody rb in _RagdollRigidbodies)
-            {
-                if(!rb.isKinematic)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-    }
+    => !_animator.enabled && !_animator.GetBool("CanWalk");
 
     private void Awake()
     {
@@ -69,33 +57,9 @@ public class EnemyRigidBodyController : MonoBehaviour
             }
         }
 
-        if(IsRagdoll)
-        {
-            //TryGetUp();
-        }
-
         if(_getUpTimer < _getUpTimerMax)
         {
             _getUpTimer += Time.deltaTime;
-        }
-    }
-
-    private void TryGetUp()
-    {
-        if(_getUpTimer < _getUpTimerMax)
-        {
-            return;
-        }
-
-        _getUpTimer = 0f;
-
-        var rb = GetComponent<Rigidbody>();
-
-        if(rb.velocity.magnitude < 0.1f)
-        {
-            RagdollModeOff();
-            AllignPositionToHips();
-            _animator.SetTrigger("GetUp");
         }
     }
 
@@ -116,6 +80,11 @@ public class EnemyRigidBodyController : MonoBehaviour
         RagdollModeOff();
         AllignPositionToHips();
         _animator.SetTrigger("GetUp");
+
+        while(_animator.GetCurrentAnimatorStateInfo(0).IsName("GetUp"))
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
 
         _tryingToGetUp = false;
     }
