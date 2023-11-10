@@ -25,19 +25,7 @@ public class EnemyRigidBodyController : MonoBehaviour
     private bool _tryingToGetUp = false;
 
     public bool IsRagdoll
-    {
-        get
-        {
-            foreach(Rigidbody rb in _RagdollRigidbodies)
-            {
-                if(!rb.isKinematic)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-    }
+    => !_animator.enabled && !_animator.GetBool("CanWalk");
 
     private void Awake()
     {
@@ -69,33 +57,9 @@ public class EnemyRigidBodyController : MonoBehaviour
             }
         }
 
-        if(IsRagdoll)
-        {
-            //TryGetUp();
-        }
-
         if(_getUpTimer < _getUpTimerMax)
         {
             _getUpTimer += Time.deltaTime;
-        }
-    }
-
-    private void TryGetUp()
-    {
-        if(_getUpTimer < _getUpTimerMax)
-        {
-            return;
-        }
-
-        _getUpTimer = 0f;
-
-        var rb = GetComponent<Rigidbody>();
-
-        if(rb.velocity.magnitude < 0.1f)
-        {
-            RagdollModeOff();
-            AllignPositionToHips();
-            _animator.SetTrigger("GetUp");
         }
     }
 
@@ -116,8 +80,21 @@ public class EnemyRigidBodyController : MonoBehaviour
         RagdollModeOff();
         AllignPositionToHips();
         _animator.SetTrigger("GetUp");
+        StartCoroutine(TimerGetUp());
+
+        while(_animator.GetCurrentAnimatorStateInfo(0).IsName("GetUp"))
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
 
         _tryingToGetUp = false;
+    }
+
+    IEnumerator TimerGetUp()
+    {
+        GetComponent<EnemyMovement>().canMove=false;
+        yield return new WaitForSeconds(2.2f);
+        GetComponent<EnemyMovement>().canMove=true;
     }
 
     private void AllignPositionToHips()
@@ -140,6 +117,7 @@ public class EnemyRigidBodyController : MonoBehaviour
     private void RagdollModeOn(Vector3 direction)
     {
         _animator.enabled = false;
+        GetComponent<EnemyMovement>().canMove = false;
 
         foreach (Collider col in _ragdollColliders)
         {
@@ -160,6 +138,10 @@ public class EnemyRigidBodyController : MonoBehaviour
 
     private void RagdollModeOff()
     {
+        _animator.SetBool("CanAttack", false);
+        _animator.SetBool("CanWalk", true);
+        GetComponent<EnemyMovement>().canMove = true;
+
         foreach (Collider col in _ragdollColliders)
         {
             col.enabled = false;
@@ -201,5 +183,24 @@ public class EnemyRigidBodyController : MonoBehaviour
     {
         StartCoroutine(MoveAgain());
         RagdollModeOn(playerDirection);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Target"))
+        {
+           _animator.SetBool("CanWalk", false);
+            _animator.SetBool("CanAttack", true);
+        }
+        
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Target"))
+        {
+            _animator.SetBool("CanWalk", true);
+            _animator.SetBool("CanAttack", false);
+        }
     }
 }

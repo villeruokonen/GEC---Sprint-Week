@@ -67,6 +67,8 @@ public class PlayerMovement : MonoBehaviour
         _tornadoAudio = _tornadoModelT.GetComponent<AudioSource>();
         _tornadoGroundMarkPrefab = Resources.Load<GameObject>("Prefabs/TornadoGroundMark");
         _char = GetComponent<CharacterController>();
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
