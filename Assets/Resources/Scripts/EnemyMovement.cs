@@ -9,12 +9,21 @@ public class EnemyMovement : MonoBehaviour
     public float speed;
     private Transform target;
     public bool canMove = true;
- 
 
+    [SerializeField] private int _damage = 1;
+    [SerializeField] private float _damageRate = 1;
+
+    private float _damageTimer;
+
+    private TotemController _totem;
+
+    private bool _damagesTotem;
+ 
     void Start()
     {
       
         target = GameObject.FindGameObjectWithTag("Target").transform;
+        _totem = target.GetComponentInChildren<TotemController>();
     }
 
     void Update()
@@ -23,6 +32,24 @@ public class EnemyMovement : MonoBehaviour
         {
             Move();
         }
+
+        if (_damagesTotem)
+        {
+            _damageTimer += Time.deltaTime;
+
+            if (_damageTimer >= _damageRate)
+            {
+                _damageTimer = 0;
+                DamageTotem();
+            }
+        }
+    }
+
+    private void DamageTotem()
+    {
+        if(_totem == null)
+            return;
+        _totem.TakeDamage(_damage);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -30,6 +57,7 @@ public class EnemyMovement : MonoBehaviour
         if (other.CompareTag("Target"))
         {
             canMove = false;
+            _damagesTotem = true;
         }
     }
 
@@ -39,11 +67,13 @@ public class EnemyMovement : MonoBehaviour
         {
             canMove = true;
         }
+
+        _damagesTotem = false;
     }
 
     private void Move()
     {
-        if (target == null)
+        if (target == null || !canMove)
             return;
 
         transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);

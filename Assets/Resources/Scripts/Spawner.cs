@@ -34,7 +34,7 @@ public class Spawner : MonoBehaviour
         // We can also set the fields _enemyPrefab and _heavyEnemyPrefab as static
         // since only one instance of each prefab is needed (memory optimization)
 
-        _enemyPrefab = Resources.Load<GameObject>("Prefabs/Enemies/RagdollEnemy");
+        _enemyPrefab = Resources.Load<GameObject>("Prefabs/Enemies/LumberJack");
         _heavyEnemyPrefab = Resources.Load<GameObject>("Prefabs/Enemies/HeavyEnemy");
         CalculateAmountOfEnemies();
         _availableSpawnAreas = new List<SpawnArea>(spawnAreas);
