@@ -135,12 +135,7 @@ public class PlayerMovement : MonoBehaviour
 
         var desiredMove = new Vector3(input.Horizontal, 0, input.Vertical).normalized;
 
-        float p = GetComponent<Player>().TornadoPower;
-        float pMax = GetComponent<Player>().MaxTornadoPower;
-
-        bool hasEnoughPower = p >= pMax * 0.5f;
-
-        if (input.WantsTornadoStart && hasEnoughPower)
+        if (input.WantsTornadoStart)
         {
             StartTornado();
         }
@@ -187,15 +182,7 @@ public class PlayerMovement : MonoBehaviour
 
         _tornadoModelT.localScale = Vector3.Lerp(Vector3.zero, _tornadoMaxScale, _currentTornadoRate);
 
-        _tornadoAudio.volume = _currentTornadoRate;
-
-        _tornadoAudio.pitch = Mathf.Clamp(_currentTornadoRate, 0.8f, 1.1f);
-
-        if (_tornadoAudio.volume > 0.05f && !_tornadoAudio.isPlaying)
-            _tornadoAudio.Play();
-        else if (_tornadoAudio.volume < 0.05f)
-            _tornadoAudio.Stop();
-
+        
         var mr = _tornadoModelT.GetComponent<MeshRenderer>();
 
         Color transp = new Color(1, 1, 1, 0);

@@ -59,6 +59,9 @@ public class Player : MonoBehaviour
                 _tornadoPower = _maxTornadoPower;
             if (_physicsEnemies.Count > 0)
                 RemoveAllEnemiesFromTornado();
+
+            if (_tornadoPower > _maxTornadoPower)
+                _tornadoPower = _maxTornadoPower;
         }
 
         _tornadoPowerSlider.fillAmount = _tornadoPower / _maxTornadoPower;
