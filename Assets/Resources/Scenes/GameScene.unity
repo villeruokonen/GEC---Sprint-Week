@@ -1627,11 +1627,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5036322241435421670, guid: 7327a9b60afd47c43a45d303cddadee3, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.00000014134537
+      value: 0.00000010926354
       objectReference: {fileID: 0}
     - target: {fileID: 5036322241435421670, guid: 7327a9b60afd47c43a45d303cddadee3, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.00000012042482
+      value: -0.00000009309143
       objectReference: {fileID: 0}
     - target: {fileID: 5229906395678883600, guid: 7327a9b60afd47c43a45d303cddadee3, type: 3}
       propertyPath: m_Name
@@ -2303,14 +2303,14 @@ Terrain:
   m_Enabled: 1
   serializedVersion: 6
   m_TerrainData: {fileID: 15600000, guid: 39d416789f7da0a45a652e2cb5b45d14, type: 2}
-  m_TreeDistance: 5000
-  m_TreeBillboardDistance: 50
-  m_TreeCrossFadeLength: 5
+  m_TreeDistance: 296
+  m_TreeBillboardDistance: 115
+  m_TreeCrossFadeLength: 125.2
   m_TreeMaximumFullLODCount: 50
-  m_DetailObjectDistance: 80
+  m_DetailObjectDistance: 181
   m_DetailObjectDensity: 1
-  m_HeightmapPixelError: 5
-  m_SplatMapDistance: 1000
+  m_HeightmapPixelError: 10.9
+  m_SplatMapDistance: 299
   m_HeightmapMaximumLOD: 0
   m_ShadowCastingMode: 2
   m_DrawHeightmap: 1
