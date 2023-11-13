@@ -135,7 +135,7 @@ public class PlayerMovement : MonoBehaviour
 
         var desiredMove = new Vector3(input.Horizontal, 0, input.Vertical).normalized;
 
-        if (input.WantsTornadoStart)
+        if (input.WantsTornadoStart && GetComponent<Player>().TornadoPower > 0.05f)
         {
             StartTornado();
         }
@@ -216,7 +216,7 @@ public class PlayerMovement : MonoBehaviour
         _tornadoActive = true;
     }
 
-    private void StopTornado()
+    public void StopTornado()
     {
         _tornadoActive = false;
     }
