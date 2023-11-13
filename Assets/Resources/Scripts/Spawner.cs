@@ -45,7 +45,8 @@ public class Spawner : MonoBehaviour
 
     private void CalculateAmountOfEnemies()
     {
-        _totalEnemiesInWave = _currentWave * 15;
+        _totalEnemiesInWave = 5 * _currentWave * _currentWave + 20;
+
     }
 
     void Update()
