@@ -997,7 +997,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   canMove: 1
-  _damage: 1
+  _damage: 2
   _damageRate: 1
 --- !u!136 &6787351358908866864
 CapsuleCollider:

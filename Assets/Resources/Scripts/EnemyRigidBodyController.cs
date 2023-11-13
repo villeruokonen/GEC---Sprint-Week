@@ -27,6 +27,9 @@ public class EnemyRigidBodyController : MonoBehaviour
     public bool IsRagdoll
     => !_animator.enabled && !_animator.GetBool("CanWalk");
 
+    public bool AttackAnimationPlaying
+    => _animator.GetCurrentAnimatorStateInfo(0).IsName("Lumbering");
+
     private void Awake()
     {
         _hipsBone = _animator.GetBoneTransform(HumanBodyBones.Hips);

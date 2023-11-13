@@ -15,6 +15,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject MenuButton;
     void Start()
     {
+        if (CreditsMenu == null)
+            return;
         CreditsMenu.SetActive(false);
     }
 
