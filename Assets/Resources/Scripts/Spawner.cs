@@ -46,7 +46,6 @@ public class Spawner : MonoBehaviour
     private void CalculateAmountOfEnemies()
     {
         _totalEnemiesInWave = 5 * _currentWave * _currentWave + 20;
-
     }
 
     void Update()
@@ -58,13 +57,13 @@ public class Spawner : MonoBehaviour
             StartNextWave();
         }
 
-        //if (Input.GetKeyDown(KeyCode.F))
-        //{
-        //    foreach (var enemy in enemiesAlive)
-        //    {
-        //        Destroy(enemy);
-        //    }
-        //}
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            foreach (var enemy in enemiesAlive)
+            {
+                Destroy(enemy);
+            }
+        }
     }
 
     // Calculates and returns a list of int that represents the number of enemies to spawn per spawn areas according to percentages given
