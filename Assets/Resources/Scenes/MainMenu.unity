@@ -257,8 +257,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Spin of the hill
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9dc8a2df9e5c07c4284b80065ddb9270, type: 2}
-  m_sharedMaterial: {fileID: 3062108094252073055, guid: 9dc8a2df9e5c07c4284b80065ddb9270, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: fa55e7c280953f14e9b3d56af850eba7, type: 2}
+  m_sharedMaterial: {fileID: 3734426619565089227, guid: fa55e7c280953f14e9b3d56af850eba7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -393,8 +393,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9dc8a2df9e5c07c4284b80065ddb9270, type: 2}
-  m_sharedMaterial: {fileID: 3062108094252073055, guid: 9dc8a2df9e5c07c4284b80065ddb9270, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: fa55e7c280953f14e9b3d56af850eba7, type: 2}
+  m_sharedMaterial: {fileID: 3734426619565089227, guid: fa55e7c280953f14e9b3d56af850eba7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -527,8 +527,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Quit
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9dc8a2df9e5c07c4284b80065ddb9270, type: 2}
-  m_sharedMaterial: {fileID: 3062108094252073055, guid: 9dc8a2df9e5c07c4284b80065ddb9270, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: fa55e7c280953f14e9b3d56af850eba7, type: 2}
+  m_sharedMaterial: {fileID: 3734426619565089227, guid: fa55e7c280953f14e9b3d56af850eba7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -935,7 +935,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &975768586
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1015,8 +1015,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Play
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9dc8a2df9e5c07c4284b80065ddb9270, type: 2}
-  m_sharedMaterial: {fileID: 3062108094252073055, guid: 9dc8a2df9e5c07c4284b80065ddb9270, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: fa55e7c280953f14e9b3d56af850eba7, type: 2}
+  m_sharedMaterial: {fileID: 3734426619565089227, guid: fa55e7c280953f14e9b3d56af850eba7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1159,8 +1159,8 @@ MonoBehaviour:
 
     Shikder'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9dc8a2df9e5c07c4284b80065ddb9270, type: 2}
-  m_sharedMaterial: {fileID: 3062108094252073055, guid: 9dc8a2df9e5c07c4284b80065ddb9270, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: fa55e7c280953f14e9b3d56af850eba7, type: 2}
+  m_sharedMaterial: {fileID: 3734426619565089227, guid: fa55e7c280953f14e9b3d56af850eba7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
