@@ -135,22 +135,22 @@ public class PlayerMovement : MonoBehaviour
 
         var desiredMove = new Vector3(input.Horizontal, 0, input.Vertical).normalized;
 
-        if (input.WantsTornadoStart && GetComponent<Player>().TornadoPower > 0.05f)
+        if (input.WantsTornadoStart && GetComponent<Player>().TornadoPower > 0.95f)
         {
             StartTornado();
         }
-        else if (input.WantsTornadoStop)
+        /*else if (input.WantsTornadoStop)
         {
             StopTornado();
-        }
+        }*/
 
         UpdateTornado();
 
         //Vector3 cameraForward = _cameraT.forward;
 
         desiredMove = Quaternion.Euler(0, _cameraT.eulerAngles.y, 0) * desiredMove;
-
-        Vector3 actualMovement = desiredMove * _walkSpeed * Time.deltaTime;
+        float speed= IsTornado ? _walkSpeed * 1.5f : _walkSpeed;
+        Vector3 actualMovement = desiredMove * speed* Time.deltaTime;
 
         actualMovement.y = Physics.gravity.y * Time.deltaTime;
 

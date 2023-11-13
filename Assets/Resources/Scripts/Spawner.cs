@@ -19,7 +19,7 @@ public class Spawner : MonoBehaviour
     public float maxDelay = 2.0f; // Maximum delay in seconds between enemy spawns
     
 
-    private int _currentWave = 1;
+    public int _currentWave = 1;
     private int _totalEnemiesInWave;
     private static GameObject _enemyPrefab;
     private static GameObject _heavyEnemyPrefab;

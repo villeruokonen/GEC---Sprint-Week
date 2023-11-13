@@ -23,14 +23,14 @@ public class Player : MonoBehaviour
     private float _tornadoPower = 2.0f;
     private readonly float _tornadoDecayRate = 0.5f;
 
-    private Slider _tornadoPowerSlider;
+    private Image _tornadoPowerSlider;
 
     // Start is called before the first frame update
     void Start()
     {
         _playerMovement = GetComponent<PlayerMovement>();
 
-        _tornadoPowerSlider = transform.Find("Canvas/TornadoPowerSlider").GetComponent<Slider>();
+        _tornadoPowerSlider = transform.Find("Canvas/TornadoBG/TornadoPowerSlider").GetComponent<Image>();
 
         _tornadoPower = _maxTornadoPower;
     }
@@ -57,10 +57,10 @@ public class Player : MonoBehaviour
                 RemoveAllEnemiesFromTornado();
         }
 
-        _tornadoPowerSlider.value = _tornadoPower / _maxTornadoPower;
+        _tornadoPowerSlider.fillAmount = _tornadoPower / _maxTornadoPower;
     }
 
-    void OnCollisionEnter(Collision col)
+    void OnTriggerEnter(Collider col)
     {
         if (IsTornado)
             return;
@@ -75,7 +75,7 @@ public class Player : MonoBehaviour
             if (rbController == null)
                 return;
 
-            Vector3 force = (col.transform.position - transform.position).normalized;
+            Vector3 force = (-col.transform.position + transform.position).normalized;
 
             force *= _kickForce;
 
