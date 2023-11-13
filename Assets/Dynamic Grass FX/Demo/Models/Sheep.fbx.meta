@@ -1,0 +1,163 @@
+fileFormatVersion: 2
+guid: ad4854454fd34d345a112f4aa9b4deb5
+timeCreated: 1556415155
+licenseType: Store
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: Armature
+    100002: Back
+    100004: Back_end
+    100006: BackFoot.L
+    100008: BackFoot.L_end
+    100010: BackFoot.R
+    100012: BackFoot.R_end
+    100014: BackLeg.L
+    100016: BackLeg.R
+    100018: BackLowLeg.L
+    100020: BackLowLeg.L_end
+    100022: BackLowLeg.R
+    100024: BackLowLeg.R_end
+    100026: BackUpLeg.L
+    100028: BackUpLeg.R
+    100030: Body
+    100032: FrontFoot.L
+    100034: FrontFoot.L_end
+    100036: FrontFoot.R
+    100038: FrontFoot.R_end
+    100040: FrontLeg.L
+    100042: FrontLeg.R
+    100044: FrontLowLeg.L
+    100046: FrontLowLeg.L_end
+    100048: FrontLowLeg.R
+    100050: FrontLowLeg.R_end
+    100052: FrontUpLeg.L
+    100054: FrontUpLeg.R
+    100056: Head
+    100058: Head_end
+    100060: Hips
+    100062: Neck
+    100064: root
+    100066: Sheep
+    100068: //RootNode
+    100070: Shoulders
+    100072: Torso
+    100074: Torso_end
+    400000: Armature
+    400002: Back
+    400004: Back_end
+    400006: BackFoot.L
+    400008: BackFoot.L_end
+    400010: BackFoot.R
+    400012: BackFoot.R_end
+    400014: BackLeg.L
+    400016: BackLeg.R
+    400018: BackLowLeg.L
+    400020: BackLowLeg.L_end
+    400022: BackLowLeg.R
+    400024: BackLowLeg.R_end
+    400026: BackUpLeg.L
+    400028: BackUpLeg.R
+    400030: Body
+    400032: FrontFoot.L
+    400034: FrontFoot.L_end
+    400036: FrontFoot.R
+    400038: FrontFoot.R_end
+    400040: FrontLeg.L
+    400042: FrontLeg.R
+    400044: FrontLowLeg.L
+    400046: FrontLowLeg.L_end
+    400048: FrontLowLeg.R
+    400050: FrontLowLeg.R_end
+    400052: FrontUpLeg.L
+    400054: FrontUpLeg.R
+    400056: Head
+    400058: Head_end
+    400060: Hips
+    400062: Neck
+    400064: root
+    400066: Sheep
+    400068: //RootNode
+    400070: Shoulders
+    400072: Torso
+    400074: Torso_end
+    4300000: Sheep
+    7400000: Armature|Idle
+    7400002: Armature|Jump
+    9500000: //RootNode
+    13700000: Sheep
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 0
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
