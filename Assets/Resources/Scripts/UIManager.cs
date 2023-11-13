@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEditor.SearchService;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -15,6 +17,16 @@ public class UIManager : MonoBehaviour
     
     void Update()
     {
-        waveCounterText.text = "WAVE "+spawner._currentWave.ToString(); 
+        if (waveCounterText)
+        {
+            waveCounterText.text = "WAVE " + spawner._currentWave.ToString();
+        }
+        
+    }
+
+    public void StartGame()
+    {
+        
+        SceneManager.LoadScene(1);
     }
 }
