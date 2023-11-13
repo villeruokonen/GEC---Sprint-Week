@@ -52,7 +52,7 @@ public class EnemyRigidBodyController : MonoBehaviour
             if(CanTakeRagdollDamage)
             {
                 int damage = Mathf.RoundToInt(_lastCollision.relativeVelocity.magnitude / 6);
-                Debug.Log("Damage: " + damage);
+                //Debug.Log("Damage: " + damage);
                 GetComponent<Enemy>().TakeDamage(damage);
             }
         }
