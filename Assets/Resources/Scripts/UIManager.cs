@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEditor.SearchService;
+
 using UnityEngine.SceneManagement;
-using Autodesk.Fbx;
+
 
 public class UIManager : MonoBehaviour
 {
