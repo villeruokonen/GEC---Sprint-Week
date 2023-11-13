@@ -61,6 +61,12 @@ public class EnemyRigidBodyController : MonoBehaviour
         {
             _getUpTimer += Time.deltaTime;
         }
+
+        // Should this be done?
+        //if (IsRagdoll)
+        //{
+        //    transform.position = _hipsBone.position;
+        //}
     }
 
     IEnumerator MoveAgain()

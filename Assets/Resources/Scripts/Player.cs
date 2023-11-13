@@ -1,15 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public enum EnemyState
-{
-    Idle,
-    Chasing,
-    Attacking,
-    TornadoState,
-    Dead
-}
+using UnityEngine.UI;
 
 [RequireComponent(typeof(PlayerMovement), typeof(CharacterController))]
 public class Player : MonoBehaviour
@@ -20,12 +12,27 @@ public class Player : MonoBehaviour
 
     private bool IsTornado => _playerMovement.IsTornado;
 
-    [SerializeField] private float _kickForce = 10f;
+    public float TornadoPower => _tornadoPower;
+
+    [SerializeField] private float _kickForce = 10.0f;
+
+    [SerializeField] private float _tornadoRadius = 4.5f;
+
+    [SerializeField] private float _maxTornadoPower = 3.0f;
+
+    private float _tornadoPower = 2.0f;
+    private readonly float _tornadoDecayRate = 0.5f;
+
+    private Image _tornadoPowerSlider;
 
     // Start is called before the first frame update
     void Start()
     {
         _playerMovement = GetComponent<PlayerMovement>();
+
+        _tornadoPowerSlider = transform.Find("Canvas/TornadoBG/TornadoPowerSlider").GetComponent<Image>();
+
+        _tornadoPower = _maxTornadoPower;
     }
 
     // Update is called once per frame
@@ -33,18 +40,27 @@ public class Player : MonoBehaviour
     {
         if (IsTornado)
         {
+            _tornadoPower -= _tornadoDecayRate * Time.deltaTime;
             RotateEnemiesInTornado();
 
             CheckForEnemiesToPickUp();
+
+            if (_tornadoPower <= 0)
+            {
+                _playerMovement.StopTornado();
+            }
         }
         else
         {
+            _tornadoPower += _tornadoDecayRate / 2.0f * Time.deltaTime;
             if (_physicsEnemies.Count > 0)
                 RemoveAllEnemiesFromTornado();
         }
+
+        _tornadoPowerSlider.fillAmount = _tornadoPower / _maxTornadoPower;
     }
 
-    void OnCollisionEnter(Collision col)
+    void OnTriggerEnter(Collider col)
     {
         if (IsTornado)
             return;
@@ -59,7 +75,7 @@ public class Player : MonoBehaviour
             if (rbController == null)
                 return;
 
-            Vector3 force = (col.transform.position - transform.position).normalized;
+            Vector3 force = (-col.transform.position + transform.position).normalized;
 
             force *= _kickForce;
 
@@ -85,29 +101,18 @@ public class Player : MonoBehaviour
 
     void CheckForEnemiesToPickUp()
     {
-        var enemies = Physics.OverlapSphere(transform.position, 8, LayerMask.GetMask("Enemy"));
+        var enemies = Physics.OverlapSphere(transform.position, _tornadoRadius, LayerMask.GetMask("Enemy"));
 
         foreach (var enemy in enemies)
         {
             if (_physicsEnemies.Contains(enemy.gameObject))
                 continue;
 
-            _physicsEnemies.Add(enemy.gameObject);
-            ParentToPlayer(enemy.transform);
-            SetEnemyRagdollNoDamage(enemy.gameObject);
-        }
-    }
+            Transform root = enemy.transform.root;
 
-    void OnTriggerEnter(Collider col)
-    {
-        if (_playerMovement.IsTornado)
-        {
-            if (col.CompareTag("Enemy"))
-            {
-                _physicsEnemies.Add(col.gameObject);
-                ParentToPlayer(col.transform);
-                SetEnemyRagdollNoDamage(col.gameObject);
-            }
+            _physicsEnemies.Add(root.gameObject);
+            ParentToPlayer(root);
+            SetEnemyRagdollNoDamage(enemy.gameObject);
         }
     }
 

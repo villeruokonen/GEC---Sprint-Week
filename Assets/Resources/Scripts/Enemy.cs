@@ -27,6 +27,18 @@ public class Enemy : MonoBehaviour
         _damageTimer += Time.deltaTime;
 
         _movement.enabled = !_rbController.IsRagdoll;
+
+        if (transform.position.y < 13)
+        {
+            StartCoroutine(DestroyBody());
+        }
+
+    }
+
+    IEnumerator DestroyBody()
+    {
+        yield return new WaitForSeconds(.5f);
+        Destroy(gameObject);
     }
 
     public void TakeDamage(int amount)
