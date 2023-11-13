@@ -135,7 +135,12 @@ public class PlayerMovement : MonoBehaviour
 
         var desiredMove = new Vector3(input.Horizontal, 0, input.Vertical).normalized;
 
-        if (input.WantsTornadoStart && GetComponent<Player>().TornadoPower > 0.95f)
+        float p = GetComponent<Player>().TornadoPower;
+        float pMax = GetComponent<Player>().MaxTornadoPower;
+
+        bool hasEnoughPower = p >= pMax * 0.5f;
+
+        if (input.WantsTornadoStart && hasEnoughPower)
         {
             StartTornado();
         }

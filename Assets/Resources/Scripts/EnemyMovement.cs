@@ -49,6 +49,10 @@ public class EnemyMovement : MonoBehaviour
     {
         if(_totem == null)
             return;
+
+        if (!GetComponent<EnemyRigidBodyController>().AttackAnimationPlaying)
+            return;
+
         _totem.TakeDamage(_damage);
     }
 
