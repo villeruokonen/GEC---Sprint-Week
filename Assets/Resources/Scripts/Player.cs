@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     private bool IsTornado => _playerMovement.IsTornado;
 
     public float TornadoPower => _tornadoPower;
+    public float MaxTornadoPower => _maxTornadoPower;
 
     [SerializeField] private float _kickForce = 10.0f;
 
@@ -53,8 +54,14 @@ public class Player : MonoBehaviour
         else
         {
             _tornadoPower += _tornadoDecayRate / 2.0f * Time.deltaTime;
+
+            if (_tornadoPower > _maxTornadoPower)
+                _tornadoPower = _maxTornadoPower;
             if (_physicsEnemies.Count > 0)
                 RemoveAllEnemiesFromTornado();
+
+            if (_tornadoPower > _maxTornadoPower)
+                _tornadoPower = _maxTornadoPower;
         }
 
         _tornadoPowerSlider.fillAmount = _tornadoPower / _maxTornadoPower;

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEditor.SearchService;
+
 using UnityEngine.SceneManagement;
-using Autodesk.Fbx;
+
 
 public class UIManager : MonoBehaviour
 {
@@ -15,6 +15,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject MenuButton;
     void Start()
     {
+        if (CreditsMenu == null)
+            return;
         CreditsMenu.SetActive(false);
     }
 
